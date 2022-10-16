@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Профайл пользователя
+  {{ author.get_full_name }}
+{% endblock title %}
+
+{% block content %}
+  <div class="mb-5">
+    <p>
+      <div class="h1 pb-2 mb-4 text-danger border-bottom border-danger">
+          <h1>Все посты пользователя {{ author.get_full_name }} </h1>
+          <h3>Всего постов: {{ author.books.count }}</h3>
+          <h5>Всего подписок: {{ author.follower.count }}</h5>
+          <h5>Всего подписчиков: {{ author.following.count }}</h5>
+<!--          {% if request.user != author %}-->
+<!--            {% if user.is_authenticated %}-->
+<!--              {% if following %}-->
+<!--                <a class="btn btn-lg btn-light" href="" role="button">-->
+<!--                  Отписаться от автора-->
+<!--                </a>-->
+<!--              {% else %}-->
+<!--                <a class="btn btn-lg btn-primary" href="" role="button">-->
+<!--                  Подписаться на автора-->
+<!--                </a>-->
+<!--              {% endif %}-->
+<!--            {% endif %}-->
+<!--          {% endif %}-->
+      </div>
+    </p>
+      {% for book in page_obj %}
+      {% include 'books/includes/card.html' %}
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+      {% include 'books/includes/paginator.html' %}
+  </div>
+{% endblock content %}

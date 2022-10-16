@@ -1,0 +1,55 @@
+{% load thumbnail %}
+
+<article class="card border border-primary">
+  <div class="card-header">
+
+    <ul>
+    <!--Author-->
+      <h3>
+        {{ book.book_author }}.
+        {{ book.title }}.
+        Издательство: {{ book.book_publisher }},
+        {{ book.book_year}} год.
+      </h3>
+      <li class="h6">
+        {% if author %}
+          Опубликовал на сайте: {{ book.author.get_full_name }}
+        {% else %}
+          Автор публикации:
+            <a href="{% url 'books:profile' book.author %}">
+            {{ book.author.get_full_name }}
+            </a>
+        {% endif %}
+      </li>
+
+      <!--Pub_Date-->
+      <li class="h6">
+        На сайте: {{ book.pub_date|date:"d E Y" }}
+      </li>
+    </ul>
+  </div> <br>
+  <!--book Info-->
+  <ul>
+  {% thumbnail book.book_image "300x400" crop="center" padding=True as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+  {% endthumbnail %}
+    </ul>
+  <div class="card-body">
+    <p class="card-text">{{ book.description|linebreaks|truncatewords:25 }}</p>
+    <a href="{% url 'books:book_detail' book.pk %}">
+      подробная информация
+    </a><br>
+    {% if not category %}
+      {% if book.category %}
+        все записи раздела:
+        <a href="{% url 'books:category_page' book.category.slug %}">
+          {{ book.category }}
+        </a>
+      {% else %}
+        <span style='color: red'>Этой публикации нет ни в одном разделе
+        </span>
+      {% endif %}
+    {% endif %}
+  </div>
+{% if not forloop.last %}<hr>{% endif %}
+</article>

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Записи категории: {{ category }}
+{% endblock %}
+
+{% block content %}
+  <div class="container py-5">
+    <h1> Записи категории: {{ category }} </h1>
+    <p>
+      {{ category.description|linebreaks }}
+    </p>
+    {% for book in page_obj %}
+      {% include 'books/includes/card.html' %}
+    {% endfor %}
+  {% include 'books/includes/paginator.html' %}
+  </div>
+{% endblock %}
